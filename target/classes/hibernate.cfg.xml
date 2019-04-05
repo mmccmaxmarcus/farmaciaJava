@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+
+		<!-- Configuração do banco de dados -->
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/gerenciamento</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">root</property>
+
+		<!-- Pool de conexões -->
+		<property name="connection.pool_size">1</property>
+
+		<!-- SQL dialect -->
+		<property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+
+		<!-- Gerenciamento do contexto das sessões -->
+		<property name="current_session_context_class">thread</property>
+
+		<!-- Cache segundo nivel -->
+		<property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+
+		<!-- Mostra SQLs geradas -->
+		<property name="show_sql">true</property>
+
+		<!-- Cria as tabelas do banco de dados -->
+		<property name="hbm2ddl.auto">update</property>
+
+		<!-- Mapeamento de entidades -->
+		<mapping class="br.com.gerenciamento.entidade.Estado" />
+		<mapping class="br.com.gerenciamento.entidade.Cidade" />
+		<mapping class="br.com.gerenciamento.entidade.Fabricante" />
+		<mapping class="br.com.gerenciamento.entidade.Produto" />
+		<mapping class="br.com.gerenciamento.entidade.Pessoa" />
+		<mapping class="br.com.gerenciamento.entidade.Cliente" />
+		<mapping class="br.com.gerenciamento.entidade.Funcionario" />
+		<mapping class="br.com.gerenciamento.entidade.Usuario" />
+		<mapping class="br.com.gerenciamento.entidade.Venda" />
+		<mapping class="br.com.gerenciamento.entidade.ItemVenda" />
+		<mapping class="br.com.gerenciamento.entidade.Historico" />
+		<mapping class="br.com.gerenciamento.entidade.Caixa" />
+	    <mapping class="br.com.gerenciamento.entidade.Movimentacao" />
+        <mapping class="br.com.gerenciamento.entidade.Imagem" />
+        	     
+		
+
+
+
+
+	</session-factory>
+
+</hibernate-configuration>

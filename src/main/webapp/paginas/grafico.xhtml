@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="conteudo">
+		<!-- API Google Charts -->
+		<script type="text/javascript"
+			src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+			//Carrega a API de Visualização
+			google.charts.load('current', {
+				packages : [ 'corechart' ]
+			});
+
+			//Função que é chamada quando a API de Visualização é carregada
+			google.charts.setOnLoadCallback(drawChart);
+			//     	google.charts.setOnLoadCallback(gerarPNG);
+
+			//Função para mostrar os gráficos na página
+			var quantidade = parseInt("${vendaBean.todosProdudos()}");
+			var valor = parseFloat("${vendaBean.preçoTotal()}");
+			quantidade = 10;
+			valor = 180.60;
+			function drawChart() {
+				var data = google.visualization
+						.arrayToDataTable([
+								[ 'Tipo', 'Quantidade Produtos Vendidos',
+										'Valor Total' ],
+								[ '', quantidade, valor ] ]);
+
+				var view = new google.visualization.DataView(data);
+				view.setColumns([ 0, 1, {
+					calc : "stringify",
+					sourceColumn : 1,
+					type : "string",
+					role : "annotation"
+				}, 2, {
+					calc : "stringify",
+					sourceColumn : 2,
+					type : "string",
+					role : "annotation"
+				} ]);
+
+				var options = {
+					title : 'Gráfico de Licenças Pagas (Quantidade)',
+				// 				      seriesType: 'bars',
+				};
+
+				var chartCombo = new google.visualization.ColumnChart(document
+						.getElementById('Grafico'));
+				chartCombo.draw(view, options);
+
+				data = new google.visualization.DataTable();
+				data.addColumn('string', 'Element');
+				data.addColumn('number', 'Total');
+				data.addRows([ [ 'Meio Ambiente (Declaração)', quantidade ] ]);
+
+				options = {
+					'title' : 'Gráfico de Licenças Pagas (Quantidade)'
+				};
+
+				var chartSetor = new google.visualization.PieChart(document
+						.getElementById('GraficoSetorQTD'));
+				chartSetor.draw(data, options);
+			}
+		</script>
+		
+
+		<h:panelGrid columns="2">
+
+			<div id="Grafico" style="width: 700px; height: 400px;" />
+
+		</h:panelGrid>
+	</ui:define>
+</ui:composition>

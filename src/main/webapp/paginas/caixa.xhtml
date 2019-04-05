@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form id="formSch">
+			<p:schedule value="#{caixaBean.enventModel}"
+				widgetVar="calendarioVendas" id="schEvento"
+				timeZone="America/Sao_Paulo">
+
+				<p:ajax event="eventSelect" oncomplete="PF('dlg').show();"
+					listener="#{caixaBean.selecionado}" update=":formCadastro:painel" />
+
+				<p:ajax event="dateSelect" oncomplete="PF('dlg').show();"
+					listener="#{caixaBean.novo}" update=":formCadastro:painel" />
+
+			</p:schedule>
+		</h:form>
+
+		<p:dialog header="Caixa" closable="true" draggable="true" modal="true"
+			resizable="false" widgetVar="dlg" visible="false" appendTo="@(body)"
+			showEffect="clip" hideEffect="clip">
+			<h:form id="formCadastro">
+				<p:panelGrid columns="2" id="painel">
+					<p:outputLabel value="Data de Abertura: " for="dAbertura" />
+					<p:inputText value="#{caixaBean.caixa.dataAbertura}" id="dAbertura"
+						required="true"
+						requiredMessage="O campo 'Data de Abertura' deve ser preenchido" readonly="true">
+						<f:convertDateTime locale="pt_BR" />
+					</p:inputText>
+
+					<p:outputLabel value="Data de fechamento" for="dFechamento" />
+					<p:calendar value="#{caixaBean.caixa.dataFechamento}"
+						id="dFechamento" required="true" locale="pt_BR" pattern="dd/MM/yyyy"/>
+
+					<p:outputLabel value="Valor de Abertura: " for="valor" />
+					<p:inputText value="#{caixaBean.caixa.valor}" id="valor"
+						required="true"
+						requiredMessage="O campo 'valor' deve ser preenchido" size="7">
+						<f:convertNumber locale="pt_BR" />
+					</p:inputText>
+
+					<p:outputLabel value="Funcionário: " for="funcionario" />
+					<p:selectOneMenu filter="true" required="true"
+						requiredMessage="Campo 'funcionário' deve ser preenchido"
+						id="funcionario" value="#{caixaBean.caixa.funcionario}"
+						converter="omnifaces.SelectItemsConverter">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um funcionário" />
+						<f:selectItems value="#{caixaBean.funcionarios}" var="funcionario"
+							itemValue="#{funcionario}"
+							itemLabel="#{funcionario.pessoa.nome} - #{funcionario.pessoa.cpf}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Descrição" for="descricao" />
+					<p:inputTextarea maxlength="150" autoResize="false" required="true"
+						requiredMessage="Campo 'descrição' deve ser preenchido"
+						value="#{caixaBean.caixa.descricao}" id="descricao" />
+				</p:panelGrid>
+
+				<p:panelGrid columns="1">
+					<p:commandButton value="Salvar" oncomplete="PF('dlg').hide();"
+						update=":mensagem :formSch:schEvento"
+						actionListener="#{caixaBean.salvar}" />
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{vendaBean.listar}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formlistagem">
+			<p:panel header="Listagem de vendas">
+				<p:dataTable paginator="true"
+					emptyMessage="nenhum registro encontrado"
+					value="#{vendaBean.vendas}" var="venda" rows="5" id="tabela">
+
+					<p:column style="width: 5px;">
+						<p:rowToggler />
+					</p:column>
+
+					<p:column headerText="Horário" filterBy="#{venda.horario}"
+						sortBy="#{venda.horario}">
+						<h:outputText value="#{venda.horario}">
+							<f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+
+					</p:column>
+
+					<p:column headerText="Valor total" filterBy="#{venda.valorTotal}"
+						sortBy="#{venda.valorTotal}">
+						<h:outputText value="#{venda.valorTotal}">
+							<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Cliente"
+						filterBy="#{venda.cliente.pessoa.nome}"
+						sortBy="#{venda.cliente.pessoa.nome}">
+						<h:outputText value="#{venda.cliente.pessoa.nome}" />
+					</p:column>
+
+					<p:column headerText="Funcionário"
+						filterBy="#{venda.funcionario.pessoa.nome}"
+						sortBy="#{venda.funcionario.pessoa.nome}">
+						<h:outputText value="#{venda.funcionario.pessoa.nome}" />
+					</p:column>
+
+					<p:rowExpansion>
+						<p:dataTable emptyMessage="Nenhum registro encontrado"
+							value="#{venda.itemVendas}" var="itemVenda" style="width:25%" >
+							<p:column headerText="Produto" style="text-align:center">
+								<h:outputText value="#{itemVenda.produto.descricao}" />
+							</p:column>
+
+							<p:column headerText="Quantidade" style="text-align:center">
+                               <h:outputText value="#{itemVenda.quantidade}" />
+							</p:column>
+
+							<p:column headerText="Preço" style="text-align:center" >
+							<h:outputText value="#{itemVenda.valorParcial}"/>
+
+							</p:column>
+						</p:dataTable>
+					</p:rowExpansion>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

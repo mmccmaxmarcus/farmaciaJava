@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Autenticação</title>
+	<h:outputStylesheet library="css" name="estilos.css" />
+</h:head>
+<h:body>
+	<p:growl id="mensagem" />
+
+	<h:form>
+		<p:commandLink onclick="PF('dlg').show();" title="Login Gerenciamento">
+			<p:graphicImage library="imagens" name="login.png"
+				styleClass="imagemCentro" />
+		</p:commandLink>
+	</h:form>
+
+	<p:dialog header="Autenticação" closable="false" draggable="false"
+		resizable="false" modal="true" widgetVar="dlg" visible="false"
+		showEffect="fade" style="text-align:center">
+		<h:form>
+			<p:panelGrid columns="2">
+				<p:outputLabel value="CPF: " for="login" />
+				<p:inputMask mask="999.999.999-99" id="login" size="12"
+					required="true" requiredMessage="O campo 'CPF' é obrigatório"
+					value="#{autenticacaoBean.usuario.pessoa.cpf}" />
+
+				<p:outputLabel value="Senha:" for="senha" />
+				<p:password size="12" id="senha" maxlength="8" required="true"
+					requiredMessage="O campo 'senha' é obrigatório "
+					value="#{autenticacaoBean.usuario.senha}" />
+
+				<p:commandButton value="Entrar" update=":mensagem"
+					actionListener="#{autenticacaoBean.autenticar}">
+					<f:actionListener
+						type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+				</p:commandButton>
+				
+				<p:commandButton value="Cancelar" oncomplete="PF('dlg').hide()" />
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</html>

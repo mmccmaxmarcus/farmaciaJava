@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewAction action="#{vendaBean.novo}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<!-- API Google Charts -->
+		<script type="text/javascript"
+			src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+			//Carrega a API de Visualização
+			google.charts.load('current', {
+				packages : [ 'corechart' ]
+			});
+
+			//Função que é chamada quando a API de Visualização é carregada
+			google.charts.setOnLoadCallback(drawChart);
+
+			//Função para mostrar os gráficos na página
+			var quantidade = 40;
+			var valor = 127.89;
+
+			function drawChart() {
+				var data = google.visualization
+						.arrayToDataTable([
+								[ 'Tipo', 'Quantidade de Produtos',
+										'Valor Arrecadado (R$)' ],
+								[ 'Semana 2', 10, 60.89 ],
+								[ 'Semana 3', 5, 100.50 ],
+								[ 'Semana 4', 25, 89.10 ],
+								[ 'Semana 5', 15, 167.40 ] ]);
+
+				var view = new google.visualization.DataView(data);
+				view.setColumns([ 0, 1, {
+					calc : "stringify",
+					sourceColumn : 1,
+					type : "string",
+					role : "annotation"
+				}, 2, {
+					calc : "stringify",
+					sourceColumn : 2,
+					type : "string",
+					role : "annotation"
+				} ]);
+
+				var options = {
+					title : 'Gráfico de Produtos (Novembro)',
+					curveType : 'function',
+					legend : {
+						position : 'bottom'
+					}
+				};
+
+				var chart = new google.visualization.LineChart(document
+						.getElementById('GraficoColuna'));
+				chart.draw(view, options);
+
+				options = {
+					title : 'Gráfico de Produtos (Novembro)',
+					curveType : 'function',
+					legend : {
+						position : 'bottom'
+					},
+					width : 1600,
+					height : 900,
+				}
+
+				var chartPNG = new google.visualization.LineChart(document
+						.getElementById('png'));
+
+				chartPNG.draw(view, options);
+
+				document.getElementById('png').outerHTML = '<a href="'
+						+ chartPNG.getImageURI()
+						+ '" download="Gráfico">'
+						+ '<button type="button" class="btn btn-info">Baixar Imagem Gráfico</button></a>';
+
+			}
+		</script>
+
+		<h:panelGrid columns="2">
+
+			<div id="GraficoColuna" style="width: 700px; height: 400px;" />
+
+			<div style="text-align: center">
+				<div id="png" />
+			</div>
+
+		</h:panelGrid>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+	<f:metadata>
+	    <f:viewParam name="codigo" value="#{produtoBean2.codigoProduto}" required="true"
+	    requiredMessage="O código do campo 'produto' é obrigatório"/>
+		<f:viewAction action="#{produtoBean2.carregarEdicao}"/>
+	</f:metadata>
+
+
+	<ui:define name="conteudo">
+		<h:form id="formcadastro">
+			<p:panel header="Produto - Edição">
+				<p:panelGrid columns="2" id="painel">
+
+					<p:outputLabel value="Descrição: " for="descricao" />
+					<p:inputText maxlength="80" size="30"
+						value="#{produtoBean2.produto.descricao}" required="true"
+						requiredMessage="O campo 'Descrição' é obrigatório" id="descricao" />
+
+					<p:outputLabel value="Quantidade: " for="quantidade" />
+					<p:inputText maxlength="5" size="10"
+						value="#{produtoBean2.produto.quantidade}" required="true"
+						requiredMessage="O campo 'Quantidade' é obrigatório"
+						id="quantidade"
+						converterMessage="O valor informado na 'Quantidade' é inválido"
+						validatorMessage="O valor informado na 'Quantidade' é 0 - 100">
+						<f:validateLongRange minimum="0" maximum="100" />
+					</p:inputText>
+
+
+					<p:outputLabel value="Preço: " for="preco" />
+					<p:inputText maxlength="8" size="10"
+						value="#{produtoBean2.produto.preco}" required="true"
+						requiredMessage="O campo 'Preço' é obrigatório" id="preco"
+						converterMessage="O valor informado no campo 'Preço' é inválido"
+						validatorMessage="O valor informado na 'Preço' é 0 - 9999.99">
+						<f:validateDoubleRange minimum="1" maximum="9999.99" />
+						<f:convertNumber locale="pt_BR" />
+
+					</p:inputText>
+
+					<p:outputLabel value="Fabricante: " for="fabricante" />
+					<p:selectOneMenu filter="true" id="fabricante"
+						value="#{produtoBean2.produto.fabricante}"
+						converter="omnifaces.SelectItemsConverter" required="true"
+						requiredMessage="O campo 'Fabricante' é obrigatório">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione um fabricante" />
+						<f:selectItems value="#{produtoBean2.fabricantes}" var="fabricante"
+							itemValue="#{fabricante}" itemLabel="#{fabricante.descricao}" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+					<p:commandButton value="Editar" actionListener="#{produtoBean2.editar}" update=":mensagem"/>
+					<p:button value="Voltar" outcome="/paginas/produtosListagem.xhtml" />
+				</p:panelGrid>
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

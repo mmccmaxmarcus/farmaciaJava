@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:insert name="metadata" />
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Drogaria X</title>
+	<h:outputStylesheet library="css" name="estilos.css" />
+	<h:outputScript library="js" name="scripts.js" />
+</h:head>
+<h:body>
+	<p:growl id="mensagem" />
+	<p:layout id="geral" fullPage="true">
+
+		<p:layoutUnit position="north" size="30"
+			header="Sistema de Gerenciamento Drogaria" resizable="false"
+			closable="false" collapsible="false">
+		</p:layoutUnit>
+
+		<p:layoutUnit position="south" size="50"
+			header="Desenvolvido por Max e Alessandro" resizable="false"
+			closable="false" collapsible="false">
+		</p:layoutUnit>
+
+		
+			<p:layoutUnit position="center">
+				<ui:insert name="conteudo" />
+			</p:layoutUnit>
+		
+		
+		<p:layoutUnit position="west" size="200" header="Menu"
+			resizable="false" closable="false" collapsible="true" id="cabecalho">
+			<h:form id="formmenu">
+				<p:panelMenu>
+					<p:submenu label="Arquivo">
+						<p:menuitem value="Sair" url="/paginas/autenticar.xhtml" />
+						<p:menuitem value="Principal" url="/paginas/principal.xhtml" />
+					</p:submenu>
+
+					<p:submenu label="Cadastro"
+						rendered="#{autenticacaoBean.ocultarPermissoes(['A','G'])}">
+						<p:menuitem value="Estado" url="/paginas/estado.xhtml" />
+						<p:menuitem value="Cidade" url="/paginas/cidade.xhtml" />
+						<p:menuitem value="Fabricante" url="/paginas/fabricante.xhtml" />
+						<p:menuitem value="Produto" url="/paginas/produto.xhtml" />
+						<p:menuitem value="Pessoa" url="/paginas/pessoa.xhtml" />
+						<p:menuitem value="Cliente" url="/paginas/cliente.xhtml" />
+						<p:menuitem value="Funcionário" url="/paginas/funcionario.xhtml" />
+						<p:menuitem value="Histórico" url="/paginas/historico.xhtml" />
+					</p:submenu>
+
+					<p:submenu label="Movimentações">
+						<p:menuitem value="Venda" url="/paginas/venda.xhtml" />
+						<p:menuitem value="Entrada de Caixa" url="/paginas/caixa.xhtml" />
+						<p:menuitem value="Listagem das Vendas"
+							url="/paginas/vendasListagem.xhtml" />
+					</p:submenu>
+
+					<p:submenu label="Estatistica">
+						<p:menuitem value="Gráfico Venda"
+							url="/paginas/estatistica/grafico.xhtml" />
+					</p:submenu>
+
+					<p:submenu label="Ajuda">
+						<p:menuitem value="Sobre" />
+					</p:submenu>
+				</p:panelMenu>
+			</h:form>
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/modelo.xhtml">
+
+	<ui:define name="conteudo">
+		<h:form id="formbusca">
+			<p:panel>
+				<p:panelGrid columns="3">
+					<p:outputLabel value="Código" for="codigo" />
+					<p:inputText id="codigo" size="10" maxlength="10" required="true"
+						requiredMessage="O campo código é  obrigatório"
+						value="#{historicoBean.produto.codigo}" />
+					<p:commandButton icon="ui-icon-search"
+						update=":mensagem :formbusca:paineldados"
+						actionListener="#{historicoBean.buscar}" 
+						process="@this :formbusca:codigo"/>
+				</p:panelGrid>
+
+				<h:panelGroup layout="block" id="paineldados">
+					<p:panelGrid  columns="2"
+						rendered="#{historicoBean.exibiPainelDados}">
+						<p:outputLabel value="Descrição: " />
+						<h:outputText value="#{historicoBean.produto.descricao}" />
+						
+						<p:outputLabel value="Observação:" for="obs"/>
+						<p:inputTextarea value="#{historicoBean.historico.observacoes}" id="obs" rows="5" cols="50"
+						autoResize="false"/>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1">
+					<p:commandButton value="Salvar" rendered="#{historicoBean.exibiPainelDados}"
+					actionListener="#{historicoBean.salvar}" update=":mensagem"/>
+					</p:panelGrid>
+				</h:panelGroup>
+				
+			</p:panel>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>
